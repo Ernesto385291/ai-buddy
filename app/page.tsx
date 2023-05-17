@@ -107,7 +107,13 @@ export default function Home() {
                 message.role === "user" ? "justify-end" : "justify-start"
               )}
             >
-              <Message message={message.content} />
+              <Message
+                onDelete={() => {
+                  //Delete the message and all the messages after it
+                  setMessages(messages.slice(0, index));
+                }}
+                message={message.content}
+              />
             </div>
           ))}
           {processing.isLoading && (

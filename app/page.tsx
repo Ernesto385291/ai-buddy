@@ -1,13 +1,18 @@
 "use client";
 
 import axios from "axios";
+
 import { useState, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+
 import { UserButton, useUser } from "@clerk/nextjs";
+import { useForm } from "react-hook-form";
+
 import { Paintbrush, Stars } from "lucide-react";
+
 import { Message } from "@/components/message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import { useBoundStore } from "@/stores/useBoundStore";
 
 type Message = {
@@ -22,9 +27,11 @@ type FormValues = {
 export default function Home() {
   const { isLoaded, isSignedIn, user } = useUser();
 
+  const chatScrollRef = useRef<HTMLDivElement>(null);
+
   const { register, handleSubmit, reset } = useForm<FormValues>();
   const { setPersonality, personality, setChat, chat } = useBoundStore();
-  const chatScrollRef = useRef<HTMLDivElement>(null);
+
   const [processing, setProcessing] = useState({
     isLoading: false,
     error: null,
@@ -50,16 +57,13 @@ export default function Home() {
 
   useEffect(() => {
     if (chat.length === 0) {
-      const systemMessage = personality
-        ? { role: "system", content: personality }
-        : {
-            role: "system",
-            content:
-              "You are a helpful assistant that can answer questions on anything, first ask the user to choose a topic or a theme.",
-          };
-      handleNewMessage(systemMessage);
+      handleNewMessage({
+        role: "system",
+        content:
+          "You are a helpful assistant that can answer questions on anything, first ask the user to choose a topic or a theme.",
+      });
     }
-  }, [chat, personality]);
+  }, [chat]);
 
   const onSubmit = (data: FormValues) => {
     if (data.message.trim().length !== 0) {

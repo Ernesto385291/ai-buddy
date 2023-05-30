@@ -69,7 +69,7 @@ export default function Home() {
       setMessages(newMessages);
       reset();
       axios
-        .post("/api/chat", { messages: newMessages })
+        .post("/api", { messages: newMessages })
         .then((response) => {
           setProcessing({ isLoading: false, error: null });
           handleNewMessage(response.data);

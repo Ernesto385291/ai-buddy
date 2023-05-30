@@ -63,7 +63,9 @@ export default function Home() {
           "You are a helpful assistant that can answer questions on anything, first ask the user to choose a topic or a theme.",
       });
     }
-  }, [chat]);
+  }, []);
+
+  console.log(chat);
 
   const onSubmit = (data: FormValues) => {
     if (data.message.trim().length !== 0) {
@@ -124,8 +126,20 @@ export default function Home() {
         <Button
           onClick={() => {
             setPersonality("");
-            setMessages([]);
-            setChat([]);
+            setMessages([
+              {
+                role: "system",
+                content:
+                  "You are a helpful assistant that can answer questions on anything, first ask the user to choose a topic or a theme.",
+              },
+            ]);
+            setChat([
+              {
+                role: "system",
+                content:
+                  "You are a helpful assistant that can answer questions on anything, first ask the user to choose a topic or a theme.",
+              },
+            ]);
             reset();
           }}
           className="rounded-full font-medium bg-gradient-to-r from-blue-500 to-blue-600"
